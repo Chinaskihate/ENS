@@ -1,0 +1,6 @@
+@ENS.NotificationConfigurationService_HostAddress = http://localhost:5104
+
+GET {{ENS.NotificationConfigurationService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

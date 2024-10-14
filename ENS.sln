@@ -5,6 +5,12 @@ VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENS.Common", "ENS.Common\ENS.Common.csproj", "{744DEBFA-9ED5-4EFD-AE58-38522086B50C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{D1D40407-2409-41A5-A288-D376C9B31FF6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F07DE243-E74F-4E66-86B1-89D40ED91E86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENS.NotificationConfigurationService", "ENS.NotificationConfigurationService\ENS.NotificationConfigurationService.csproj", "{6D138CB4-8075-4370-8D72-E88A8595DE8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +21,17 @@ Global
 		{744DEBFA-9ED5-4EFD-AE58-38522086B50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{744DEBFA-9ED5-4EFD-AE58-38522086B50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{744DEBFA-9ED5-4EFD-AE58-38522086B50C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D138CB4-8075-4370-8D72-E88A8595DE8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D138CB4-8075-4370-8D72-E88A8595DE8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D138CB4-8075-4370-8D72-E88A8595DE8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D138CB4-8075-4370-8D72-E88A8595DE8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{744DEBFA-9ED5-4EFD-AE58-38522086B50C} = {D1D40407-2409-41A5-A288-D376C9B31FF6}
+		{6D138CB4-8075-4370-8D72-E88A8595DE8A} = {D1D40407-2409-41A5-A288-D376C9B31FF6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4DCEE9BA-2ABD-4588-9B76-3A03E395A3D5}
