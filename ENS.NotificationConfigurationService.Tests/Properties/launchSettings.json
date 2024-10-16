@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ENS.NotificationConfigurationService.Tests": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:62680;http://localhost:62681"
+    }
+  }
+}

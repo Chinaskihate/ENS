@@ -12,9 +12,9 @@ public class NotificationConfigurationController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
-    public IActionResult UploadAsync(string userId)
+    [HttpGet]
+    public IActionResult GetAsync(string userId)
     {
-        return Ok();
+        return Ok(userId);
     }
 }

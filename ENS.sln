@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F07DE243
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENS.NotificationConfigurationService", "ENS.NotificationConfigurationService\ENS.NotificationConfigurationService.csproj", "{6D138CB4-8075-4370-8D72-E88A8595DE8A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{53CFC67A-AAC0-4AFD-B1DC-D6880C880F2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ENS.NotificationConfigurationService.Tests", "ENS.NotificationConfigurationService.Tests\ENS.NotificationConfigurationService.Tests.csproj", "{C31F9D4D-002A-40DC-959D-FF2615015EDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,10 @@ Global
 		{6D138CB4-8075-4370-8D72-E88A8595DE8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D138CB4-8075-4370-8D72-E88A8595DE8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D138CB4-8075-4370-8D72-E88A8595DE8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C31F9D4D-002A-40DC-959D-FF2615015EDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C31F9D4D-002A-40DC-959D-FF2615015EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C31F9D4D-002A-40DC-959D-FF2615015EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C31F9D4D-002A-40DC-959D-FF2615015EDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +40,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{744DEBFA-9ED5-4EFD-AE58-38522086B50C} = {D1D40407-2409-41A5-A288-D376C9B31FF6}
 		{6D138CB4-8075-4370-8D72-E88A8595DE8A} = {D1D40407-2409-41A5-A288-D376C9B31FF6}
+		{53CFC67A-AAC0-4AFD-B1DC-D6880C880F2C} = {F07DE243-E74F-4E66-86B1-89D40ED91E86}
+		{C31F9D4D-002A-40DC-959D-FF2615015EDF} = {53CFC67A-AAC0-4AFD-B1DC-D6880C880F2C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4DCEE9BA-2ABD-4588-9B76-3A03E395A3D5}

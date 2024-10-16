@@ -8,7 +8,11 @@
     <UserSecretsId>624c641e-be5a-4542-9a60-137814fa1218</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
-
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="ENS.NotificationConfigurationService.Tests" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
