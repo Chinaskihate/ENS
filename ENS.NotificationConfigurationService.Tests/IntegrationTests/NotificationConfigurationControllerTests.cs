@@ -1,5 +1,6 @@
 using ENS.Contracts;
 using ENS.Resources.Errors;
+using ENS.Resources.Messages;
 using ENS.Tests.Common;
 using FluentAssertions;
 using System.Net;
@@ -47,10 +48,7 @@ public class IntegrationTests
         var response = await _client.PostAsync(url, content);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var responseString = await response.Content.ReadAsStringAsync();
-        responseString.Should().Contain("File uploaded successfully");
+        await response.EnsureResponseSucceededAsync(Messages.FileUploaded);
     }
 
     [Test]

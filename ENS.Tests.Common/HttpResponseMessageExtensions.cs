@@ -20,4 +20,17 @@ public static class HttpResponseMessageExtensions
             response.Message.Should().Be(expectedMessage);
         }
     }
+
+    public static async Task EnsureResponseSucceededAsync(
+         this HttpResponseMessage message,
+         string? expectedMessage = null)
+    {
+        message.StatusCode.Should().Be(HttpStatusCode.OK);
+        var response = await message.Content.ReadFromJsonAsync<ResponseDto>();
+        response.IsSuccess.Should().BeTrue();
+        if (expectedMessage != null)
+        {
+            response.Message.Should().Be(expectedMessage);
+        }
+    }
 }
