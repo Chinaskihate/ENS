@@ -2,7 +2,7 @@ using FluentAssertions;
 using System.Net;
 using System.Net.Http.Headers;
 
-namespace ENS.NotificationConfigurationService.Tests;
+namespace ENS.NotificationConfigurationService.Tests.IntegrationTests;
 
 [TestFixture]
 public class IntegrationTests
