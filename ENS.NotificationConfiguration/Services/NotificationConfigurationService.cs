@@ -2,10 +2,14 @@
 using Microsoft.AspNetCore.Http;
 
 namespace ENS.NotificationConfiguration.Services;
-public class NotificationConfigurationService : INotificationConfigurationService
+public class NotificationConfigurationService(IFileValidationService validationService) : INotificationConfigurationService
 {
-    public Task ProcessFileAsync(IFormFile file)
+    private readonly IFileValidationService _validationService = validationService;
+
+    public async Task ProcessFileAsync(IFormFile file)
     {
-        throw new NotImplementedException();
+        _validationService.Validate(file);
+
+        // do something with file...
     }
 }

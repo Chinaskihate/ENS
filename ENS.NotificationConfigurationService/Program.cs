@@ -1,10 +1,26 @@
 using Microsoft.AspNetCore.Http.Features;
+using ENS.Http.Extensions;
+using ENS.Logging;
+using ENS.Contracts.NotificationConfiguration.Services;
+using ENS.NotificationConfiguration.Services.Validation;
+using ENS.NotificationConfiguration.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Host.SerilogTo(SerilogOutputType.Console);
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<IFileValidationService, FileValidationService>(sp =>
+    new FileValidationService(new FileValidationSettings
+    {
+        MaxSizeInBytes = 1024,
+        AllowedExtensions = ["csv", "xlsx"]
+    }));
+
+builder.Services.AddScoped<INotificationConfigurationService, NotificationConfigurationService>(sp =>
+    new NotificationConfigurationService(sp.GetRequiredService<IFileValidationService>()));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,6 +39,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseGlobalExceptionHandler();
 
 app.UseAuthorization();
 

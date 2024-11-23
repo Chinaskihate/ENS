@@ -1,41 +1,23 @@
+using ENS.Contracts;
+using ENS.Contracts.NotificationConfiguration.Services;
+using ENS.Resources.Messages;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ENS.NotificationConfigurationService.Controllers;
 [ApiController]
 [Route("[controller]")]
-public class NotificationConfigurationController : ControllerBase
+public class NotificationConfigurationController(INotificationConfigurationService configurationService) : ControllerBase
 {
-    private readonly ILogger<NotificationConfigurationController> _logger;
-
-    public NotificationConfigurationController(ILogger<NotificationConfigurationController> logger)
-    {
-        _logger = logger;
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetAsync(string userId)
-    {
-        return Ok(userId);
-    }
+    private readonly INotificationConfigurationService _configurationService = configurationService;
 
     [HttpPost]
     public async Task<IActionResult> UploadFileAsync([FromForm] IFormFile file)
     {
-        if (file == null || file.Length == 0)
+        await _configurationService.ProcessFileAsync(file);
+
+        return Ok(new ResponseDto
         {
-            return BadRequest("No file uploaded.");
-        }
-
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-
-        // Only allow .csv or .xlsx files 
-        if (extension != ".csv" && extension != ".xlsx")
-        {
-            return BadRequest("Only .csv and .xlsx files are allowed.");
-        }
-
-        // do something with file...
-
-        return Ok(new { Message = "File uploaded successfully" });
+            Message = Messages.FileUploaded
+        });
     }
 }

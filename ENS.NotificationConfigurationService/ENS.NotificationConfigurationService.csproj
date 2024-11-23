@@ -19,6 +19,8 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\ENS.Http\ENS.Http.csproj" />
+    <ProjectReference Include="..\ENS.Logging\ENS.Logging.csproj" />
     <ProjectReference Include="..\ENS.NotificationConfiguration\ENS.NotificationConfiguration.csproj" />
   </ItemGroup>
 

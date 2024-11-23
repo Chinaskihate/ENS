@@ -1,3 +1,6 @@
+using ENS.Contracts;
+using ENS.Resources.Errors;
+using ENS.Tests.Common;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Headers;
@@ -68,11 +71,7 @@ public class IntegrationTests
         // Act
         var response = await _client.PostAsync(url, content);
 
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-        var responseString = await response.Content.ReadAsStringAsync();
-        responseString.Should().Contain("Only .csv and .xlsx files are allowed");
+        await response.EnsureResponseFailedAsync(HttpStatusCode.BadRequest, Errors.UnsupportedExtension);
     }
 
     [Test]
@@ -86,9 +85,7 @@ public class IntegrationTests
         var response = await _client.PostAsync(url, content);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-        var responseString = await response.Content.ReadAsStringAsync();
+        await response.EnsureResponseFailedAsync(HttpStatusCode.BadRequest);
     }
 
     [Test]
@@ -110,9 +107,6 @@ public class IntegrationTests
         var response = await _client.PostAsync(url, content);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-        var responseString = await response.Content.ReadAsStringAsync();
-        responseString.Should().Contain("No file uploaded");
+        await response.EnsureResponseFailedAsync(HttpStatusCode.BadRequest, Errors.EmptyFile);
     }
 }
