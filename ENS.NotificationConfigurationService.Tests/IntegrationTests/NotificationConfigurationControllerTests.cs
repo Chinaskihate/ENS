@@ -1,110 +1,70 @@
-using ENS.Contracts;
 using ENS.Resources.Errors;
 using ENS.Resources.Messages;
 using ENS.Tests.Common;
-using FluentAssertions;
 using System.Net;
 using System.Net.Http.Headers;
 
 namespace ENS.NotificationConfigurationService.Tests.IntegrationTests;
 
 [TestFixture]
-public class IntegrationTests
+public class NotificationConfigurationControllerTests : BaseIntegrationTest
 {
-    private CustomWebAppFactory _factory;
-    private HttpClient _client;
-
-    [SetUp]
-    public void SetUp()
-    {
-        _factory = new CustomWebAppFactory();
-        _client = _factory.CreateClient();
-        _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-    }
-
-    [TearDown]
-    public void TearDown()
-    {
-        _client.Dispose();
-        _factory.Dispose();
-    }
+    protected override string ControllerRoute => "NotificationConfiguration";
 
     [Test]
-    public async Task Post_UploadFileAsync_ValidCsvFile_ReturnsSuccess()
+    public async Task UploadFile_ValidCsvFile_ReturnsSuccess()
     {
-        // Arrange
-        var url = "/NotificationConfiguration"; // Ensure this matches your route
-        var fileName = "test.csv";
-        var fileContent = "header1,header2\nvalue1,value2"; // Example CSV content
-        var fileBytes = System.Text.Encoding.UTF8.GetBytes(fileContent);
+        var content = GetContent("test.csv", "header");
 
-        var content = new MultipartFormDataContent();
-        var fileStreamContent = new ByteArrayContent(fileBytes);
-        fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
+        var response = await _client.PostAsync(ControllerRoute, content);
 
-        content.Add(fileStreamContent, "file", fileName);
-
-        // Act
-        var response = await _client.PostAsync(url, content);
-
-        // Assert
         await response.EnsureResponseSucceededAsync(Messages.FileUploaded);
     }
 
-    [Test]
-    public async Task Post_UploadFileAsync_InvalidFileType_ReturnsBadRequest()
+    [TestCase("text/plain")]
+    [TestCase("text/csv")]
+    public async Task UploadFile_InvalidFileType_ReturnsBadRequest(string mediaType)
     {
-        // Arrange
-        var url = "/NotificationConfiguration"; // Ensure this matches your route
-        var fileName = "test.txt"; // Invalid file type
-        var fileContent = "This is a text file."; // Example content
-        var fileBytes = System.Text.Encoding.UTF8.GetBytes(fileContent);
+        var content = GetContent("test.txt", "test", mediaType);
 
-        var content = new MultipartFormDataContent();
-        var fileStreamContent = new ByteArrayContent(fileBytes);
-        fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-
-        content.Add(fileStreamContent, "file", fileName);
-
-        // Act
-        var response = await _client.PostAsync(url, content);
+        var response = await _client.PostAsync(ControllerRoute, content);
 
         await response.EnsureResponseFailedAsync(HttpStatusCode.BadRequest, Errors.UnsupportedExtension);
     }
 
     [Test]
-    public async Task Post_UploadFileAsync_NoFile_ReturnsBadRequest()
+    public async Task UploadFile_NoFile_ReturnsBadRequest()
     {
-        // Arrange
-        var url = "/NotificationConfiguration"; // Ensure this matches your route
-        var content = new MultipartFormDataContent(); // No file added
+        var content = new MultipartFormDataContent();
 
-        // Act
-        var response = await _client.PostAsync(url, content);
+        var response = await _client.PostAsync(ControllerRoute, content);
 
-        // Assert
         await response.EnsureResponseFailedAsync(HttpStatusCode.BadRequest);
     }
 
     [Test]
-    public async Task Post_UploadFileAsync_EmptyFile_ReturnsBadRequest()
+    public async Task UploadFile_EmptyFile_ReturnsBadRequest()
     {
-        // Arrange
-        var url = "/NotificationConfiguration"; // Ensure this matches your route
-        var fileName = "test.csv";
-        var fileContent = string.Empty;
+        var content = GetContent("test.csv", string.Empty);
+
+        var response = await _client.PostAsync(ControllerRoute, content);
+
+        await response.EnsureResponseFailedAsync(HttpStatusCode.BadRequest, Errors.EmptyFile);
+    }
+
+    private static MultipartFormDataContent GetContent(
+        string fileName,
+        string fileContent,
+        string mediaType = "text/csv")
+    {
         var fileBytes = System.Text.Encoding.UTF8.GetBytes(fileContent);
 
         var content = new MultipartFormDataContent();
         var fileStreamContent = new ByteArrayContent(fileBytes);
-        fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("text/csv");
+        fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
 
         content.Add(fileStreamContent, "file", fileName);
 
-        // Act
-        var response = await _client.PostAsync(url, content);
-
-        // Assert
-        await response.EnsureResponseFailedAsync(HttpStatusCode.BadRequest, Errors.EmptyFile);
+        return content;
     }
 }
