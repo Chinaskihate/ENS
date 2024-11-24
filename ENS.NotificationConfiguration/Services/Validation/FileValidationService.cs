@@ -12,7 +12,7 @@ public class FileValidationService(FileValidationSettings settings) : IFileValid
     {
         if (file == null || file.Length == 0)
         {
-            throw new InvalidFileException(Errors.EmptyFile, file.FileName);
+            throw new InvalidFileException(Errors.EmptyFile, file?.FileName);
         }
 
         if (file.Length > _settings.MaxSizeInBytes)
