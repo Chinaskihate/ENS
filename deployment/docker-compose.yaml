@@ -10,7 +10,23 @@ services:
       - db:/var/lib/postgresql/data
     networks:
       - shared_network
+  pg-admin:
+    container_name: ncs-pgadmin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "sapwd"
+    depends_on:
+      - db
+    volumes:
+      - pg-admin:/var/lib/pgadmin4/data
+    ports:
+      - "5050:80"
+    networks:
+      - shared_network
 volumes:
   db:
+  pg-admin:
 networks:
   shared_network:

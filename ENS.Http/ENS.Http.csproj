@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ENS.Contracts\ENS.Contracts.csproj" />
+    <ProjectReference Include="..\ENS.Logging\ENS.Logging.csproj" />
     <ProjectReference Include="..\ENS.Serialization\ENS.Serialization.csproj" />
   </ItemGroup>
 

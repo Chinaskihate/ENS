@@ -1,7 +1,7 @@
 ﻿using ENS.Contracts;
 using ENS.Serialization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
@@ -10,8 +10,7 @@ internal class GlobalExceptionHandlerMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;
 
-    public async Task Invoke(HttpContext context,
-        ILogger<GlobalExceptionHandlerMiddleware> logger)
+    public async Task Invoke(HttpContext context)
     {
         try
         {
@@ -19,14 +18,13 @@ internal class GlobalExceptionHandlerMiddleware(RequestDelegate next)
         }
         catch (Exception exception)
         {
-            await HandleExceptionAsync(context, exception, logger);
+            await HandleExceptionAsync(context, exception);
         }
     }
 
     private async Task HandleExceptionAsync(
         HttpContext context,
-        Exception exception,
-        ILogger<GlobalExceptionHandlerMiddleware> logger)
+        Exception exception)
     {
         var code = HttpStatusCode.InternalServerError;
         switch (exception)
@@ -38,8 +36,7 @@ internal class GlobalExceptionHandlerMiddleware(RequestDelegate next)
 
         context.Response.ContentType = "Application/json";
         context.Response.StatusCode = (int)code;
-
-        logger.LogError("URL: {Method} {DiplayUrl}{Message}{StackTrace}",
+        Log.Error("URL: {Method} {DiplayUrl}{Message}{StackTrace}",
             context.Request.Method,
             context.Request.Path,
             $"{Environment.NewLine}{exception.Message}",

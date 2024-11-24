@@ -5,16 +5,18 @@ using ENS.Contracts.NotificationConfiguration.Services;
 using ENS.NotificationConfiguration.Services.Validation;
 using ENS.NotificationConfiguration.Services;
 using Microsoft.AspNetCore.Mvc;
+using ENS.Persistence.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Host.SerilogTo(SerilogOutputType.Console);
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
     options.SuppressModelStateInvalidFilter = true;
 });
 builder.Services.AddControllers();
+
+builder.Services.AddNotificationDbContextFactory("Server=localhost;Port=5432;Database=NotificationConfiguration;User Id=postgres;Password=sapwd;");
 
 builder.Services.AddScoped<IFileValidationService, FileValidationService>(sp =>
     new FileValidationService(new FileValidationSettings
@@ -26,7 +28,6 @@ builder.Services.AddScoped<IFileValidationService, FileValidationService>(sp =>
 builder.Services.AddScoped<INotificationConfigurationService, NotificationConfigurationService>(sp =>
     new NotificationConfigurationService(sp.GetRequiredService<IFileValidationService>()));
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<FormOptions>(options =>
@@ -51,6 +52,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+MigrationHelper.ApplyNotificationMigration(app.Services);
+
 app.Run();
 
+// for tests
 public partial class Program { }
