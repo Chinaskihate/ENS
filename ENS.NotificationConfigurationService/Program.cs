@@ -16,7 +16,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
 });
 builder.Services.AddControllers();
 
-builder.Services.AddNotificationDbContextFactory("Server=localhost;Port=5432;Database=NotificationConfiguration;User Id=postgres;Password=sapwd;");
+builder.Services.AddNotificationDbContextFactory(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 builder.Services.AddScoped<IFileValidationService, FileValidationService>(sp =>
     new FileValidationService(new FileValidationSettings
