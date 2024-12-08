@@ -8,6 +8,6 @@ internal class TemplateChannel
     [Key]
     public Guid Id { get; set; }
     public Template Template { get; set; }
-    public Channel Channel { get; set; }
+    public int Channel { get; set; }
     public string Message { get; set; }
 }

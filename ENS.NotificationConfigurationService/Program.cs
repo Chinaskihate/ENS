@@ -6,6 +6,8 @@ using ENS.NotificationConfiguration.Services.Validation;
 using ENS.NotificationConfiguration.Services;
 using Microsoft.AspNetCore.Mvc;
 using ENS.Persistence.Helpers;
+using ENS.NotificationConfiguration.Services.Parsing;
+using ENS.Contracts.NotificationConfiguration.Services.Parsing;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +26,14 @@ builder.Services.AddScoped<IFileValidationService, FileValidationService>(sp =>
         MaxSizeInBytes = 1024,
         AllowedExtensions = ["csv", "xlsx"]
     }));
+builder.Services.AddSingleton<IFileParser, CsvFileParser>();
+builder.Services.AddSingleton<IFileParser, JsonFileParser>();
+builder.Services.AddSingleton<IFileParserFactory, FileParserFactory>();
 
 builder.Services.AddScoped<INotificationConfigurationService, NotificationConfigurationService>(sp =>
-    new NotificationConfigurationService(sp.GetRequiredService<IFileValidationService>()));
+    new NotificationConfigurationService(
+        sp.GetRequiredService<IFileValidationService>(),
+        sp.GetRequiredService<IFileParserFactory>()));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

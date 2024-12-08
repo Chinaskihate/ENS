@@ -1,6 +1,7 @@
 ﻿using ENS.Contracts.Exceptions;
 using ENS.Contracts.NotificationConfiguration.Services;
 using ENS.Resources.Errors;
+using ENS.Common.Files;
 using Microsoft.AspNetCore.Http;
 
 namespace ENS.NotificationConfiguration.Services.Validation;
@@ -20,8 +21,8 @@ public class FileValidationService(FileValidationSettings settings) : IFileValid
             throw new InvalidFileException(Errors.FileTooBig, file.FileName);
         }
 
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-        if (string.IsNullOrWhiteSpace(extension) || !_settings.AllowedExtensions.Contains(extension[1..]))
+        var extension = file.GetExtension();
+        if (string.IsNullOrWhiteSpace(extension) || !_settings.AllowedExtensions.Contains(extension))
         {
             throw new InvalidFileException(Errors.UnsupportedExtension, file.FileName);
         }
